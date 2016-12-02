@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    class Player
+    public class Player
     {
+        public string playerName;
+
+
+        
+        public void SetName()
+        {            
+            Console.WriteLine("Good Day, What is your name?");
+            playerName = Console.ReadLine();                                   
+        }
     }
 }
