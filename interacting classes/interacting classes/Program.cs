@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LemonadeStand
+namespace interacting_classes
 {
-    class UserInterface
+    class Program
     {
+        static void Main(string[] args)
+        {
+        }
     }
 }

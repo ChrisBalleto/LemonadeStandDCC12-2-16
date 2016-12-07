@@ -8,11 +8,11 @@ namespace LemonadeStand
 {
     public class Weather
     {
-        string cloudy;
-        bool rain;
-        int temperature;
-        string writerain;
-        public List<string> clouds = new List<string> { "Sunny", "Few Clouds", "Partly Cloudy", "Overcast" };
+        public string cloudy;
+        public bool isRaining;
+        public int temperature;
+        public string rainBool;
+        public List<string> clouds = new List<string> { "Sunny", "Minimal Clouds", "Partly Cloudy", "Overcast" };
         Random random = new Random();
 
         public Weather()
@@ -23,12 +23,12 @@ namespace LemonadeStand
         public void GetWeather()
         {
             cloudy = GetClouds();
-            rain = GetRain();
+            isRaining = GetRain();
             ConvertRainBool();
             temperature = GetTemperature();
 
 
-            Console.WriteLine("The Weather today is {0}, {1} , and the temperature is {2} degrees.", cloudy, writerain, temperature);
+            //Console.WriteLine("The Weather today is {0}, {1} , and the temperature is {2} degrees.", cloudy, , temperature);
         }
 
         public int GetTemperature()
@@ -54,13 +54,13 @@ namespace LemonadeStand
         }
         public void ConvertRainBool()
         {
-            if (rain == false)
+            if (isRaining == false)
             {
-                writerain = "no chance of rain";
+                rainBool = "no chance of rain";
             }
-            else if (rain == true)
+            else if (isRaining == true)
             {
-                writerain = "raining";
+                rainBool = "raining";
             }
         }
 
@@ -72,3 +72,12 @@ namespace LemonadeStand
 
     }
 }
+//public void MakeWeatherForDaysOpen()   //Was in Game Class
+//{
+//    for (int i = 0; i < numberOfDaysOpen; i++)
+//    {
+//        Weather newWeather = new Weather();
+//        BreakToRandomizeWeather();
+//        weatherCombinations.Add(newWeather);                               
+//    }
+//}
