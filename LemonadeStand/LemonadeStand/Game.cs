@@ -16,10 +16,7 @@ namespace LemonadeStand
         public Market mainMarket;
         public Day newDay;
         public Weather firstWeather;
-
-        public List<Weather> weatherCombinations = new List<Weather>();
-        public List<Player> playerList = new List<Player>();
-
+        
         public Game()
         {
             daysPassed = 1;
@@ -235,10 +232,6 @@ namespace LemonadeStand
         public void TwoSecondBreak()
         {            
             System.Threading.Thread.Sleep(2000);
-        }
-        public void BreakToRandomizeWeather()
-        {
-            System.Threading.Thread.Sleep(0030);
         }
     }
 }
