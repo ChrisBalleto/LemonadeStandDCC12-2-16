@@ -1,0 +1,7 @@
+In my LemonadeStand the 2 SOLID design principles that I have implemented are Single Responsibility Principle, and Open/Closed Principle.  
+In my weather class I have 3 functions that randomize the weather and then a function called GetWeather(); which runs all 3 functions and then my constructor runs the GetWeather function.
+While I could have done all of this in one function this makes things easier to read and far more clear as to what is going on and it allowed for me to focus on each individual function 
+doing its one thing well
+
+I also used the Open/Closed principle when I used the randomization of each Patron that will be buying or not buying. I called on different levels of randomization that I coule adjust without
+having to mess with the whole class or whole function. This will make upgrading easier in the future!

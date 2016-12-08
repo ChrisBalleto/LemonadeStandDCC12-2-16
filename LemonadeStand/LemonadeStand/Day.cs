@@ -9,7 +9,8 @@ namespace LemonadeStand
     public class Day  
 
     {
-
+        public double daysSales;
+        public double moneySpent;
         public int potentialPatrons;
         List<Patron> dayPatrons = new List<Patron>();
         public Weather dayWeather;
@@ -20,17 +21,24 @@ namespace LemonadeStand
         {
             dayWeather = new Weather();   
             GeneratePatrons();
+            SetDaysSales();
         }   
-
+        public void SetDaysSales()
+        {
+                foreach(Patron element in dayPatrons)
+            { 
+                if (element.willBuy == true)
+                {
+                    daysSales++;
+                }
+            }
+        }
         public void ShowForecast()
         {
-            Console.WriteLine("The Weather for tomorrow is {0}, {1} , and the temperature is {2} degrees.", dayWeather.cloudy, dayWeather.rainBool, dayWeather.temperature);
-        }
-         
-        public void RunDay()
-        {
-
-        }   
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\nThe Weather for tomorrow is {0}, {1}, and the temperature is {2} degrees.", dayWeather.cloudy, dayWeather.rainBool, dayWeather.temperature);
+            Console.ResetColor();
+        }       
         public void GeneratePatrons()
         {
             SetPotentialPatrons();
@@ -66,7 +74,7 @@ namespace LemonadeStand
         
         public void BreakToRandomizePatrons()
         {
-            System.Threading.Thread.Sleep(0040);
+            System.Threading.Thread.Sleep(0010);
         }
 
 

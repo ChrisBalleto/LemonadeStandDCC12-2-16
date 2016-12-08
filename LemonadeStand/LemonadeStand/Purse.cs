@@ -9,6 +9,7 @@ namespace LemonadeStand
      public class Purse
     {
         public double playerMoney;
+        public double totalProfit;
         public Purse()
         {
             playerMoney = 20.00D;
@@ -16,9 +17,9 @@ namespace LemonadeStand
         public bool CheckOverdraw(double numberofitems, double cost)
         {
             double totalCost = numberofitems * cost;
-            if ((playerMoney - totalCost) <= 0)
+            if ((playerMoney - totalCost) < 0)
             {
-                Console.WriteLine("You do not have enough money to purchase that many items. Please choose a lower amount.");           
+                Console.WriteLine("\nYou do not have enough money to purchase that many {0}. Please choose a lower amount.", Item.itemName);           
                 return  false;
             }
             else
@@ -26,11 +27,12 @@ namespace LemonadeStand
                 return true;
             }
         }
+        
         public void WithdrawMoney(double numberofitems, double cost, string name)
         {           
             double totalCost = numberofitems * cost;
             playerMoney -= totalCost;
-            Console.WriteLine("You purchased {0} {1}(s) at ${2:00.00} each for a total of ${3:00.00}.", numberofitems, name, cost, totalCost);           
+            Console.WriteLine("\nYou purchased {0} {1}(s) at ${2:00.00} each for a total of ${3:00.00}. You have ${4:00.00} left", numberofitems, name, cost, totalCost, playerMoney);
         }
     }
 }

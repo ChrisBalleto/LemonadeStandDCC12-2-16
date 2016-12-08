@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    public class Ice 
+    public class Ice : Item
     {
         public double iceCost;
-        public string itemName;
+        
         
         public Ice()
         {

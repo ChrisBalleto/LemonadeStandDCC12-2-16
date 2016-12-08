@@ -48,6 +48,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Ice.cs" />
     <Compile Include="Inventory.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Lemon.cs" />
     <Compile Include="Patron.cs" />
     <Compile Include="Player.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Market.cs" />
     <Compile Include="GameMenu.cs" />
     <Compile Include="Purse.cs" />
+    <Compile Include="Pitcher.cs" />
     <Compile Include="Sugar.cs" />
     <Compile Include="Weather.cs" />
   </ItemGroup>

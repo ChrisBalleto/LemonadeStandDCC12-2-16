@@ -10,7 +10,8 @@ namespace LemonadeStand
     {
         public int numberOfDaysOpen;
         public int daysPassed;
-        public  Player newPlayer;
+        public double pitchersCupsQuotent;
+        public Player newPlayer;
         public GameMenu playerMenu;
         public Market mainMarket;
         public Day newDay;
@@ -21,28 +22,28 @@ namespace LemonadeStand
 
         public Game()
         {
-            newPlayer = new Player();
+            daysPassed = 1;
             mainMarket = new Market();
             playerMenu = new GameMenu();
             firstWeather = new Weather();
             
         }
-        public void RunGame()
+        public void RunGame(Game game)
         {
             WelcomeToLemonadeStand();            
             MakeNewPlayer();
             ShowRules();
-            GetDaysToPlay();
-            //MakeWeatherForDaysOpen();
-            while (newPlayer.playerPurse.playerMoney > 0 || numberOfDaysOpen - daysPassed > 0)
+            GetDaysToPlay();           
+            while (newPlayer.playerPurse.playerMoney > 0 || numberOfDaysOpen == daysPassed  )
             {
-                StartDay();
-                ShowDayWeather();
+                CreateDay();
+                newDay.ShowForecast();
                 MainMenu();
-                daysPassed++;
-            }           
-            Console.ReadLine();           
+                StartDay();
+            }
+            playerMenu.EndGame(game);                  
         }
+
         public void WelcomeToLemonadeStand()
         {
             Console.WriteLine("                                          When life give you Lemons...");
@@ -54,7 +55,7 @@ namespace LemonadeStand
         }
         public void ShowRules()
         {
-            Console.WriteLine("Would you like to know the rules (Type Rules)? OR would you like to jump on in and get started (Type Start)?");
+            Console.WriteLine("\nWould you like to know the rules (Type Rules)? OR would you like to jump on in and get started (Type Start)?");
             string input = Console.ReadLine().ToLower();
             if (input == "rules")
             {
@@ -72,19 +73,18 @@ namespace LemonadeStand
         public void GetRules()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine( "This is your classic Lemonade Stand..blah  blah.......explain rules.");
+            Console.WriteLine("\n In this Lemonade stand you will choose the number of days to play. \nThen you will buy ingredients and make your pitcher(s).\n Each day will have a different amount of potential customers that are dependant on \n the weather conditions and the price you set for your pitcher. \n The goal is to make as much profit as possible for as many days as you are playing....\n Good LUCK!");
             Console.ResetColor();
         }      
         public void MakeNewPlayer()
-        {        
-            Console.WriteLine("What is your name?");
+        {              
+            Console.WriteLine("\nWhat is your name?");
             string name = Console.ReadLine();
-            newPlayer.SetName(name);
-            playerList.Add(newPlayer);            
+            newPlayer = new Player(name);              
         }
         public void GetDaysToPlay()
         {
-            Console.WriteLine("How many days would you like your Lemonade Stand open for? (Maximum of 21)");
+            Console.WriteLine("\nHello, How many days would you like your Lemonade Stand open for? (Maximum of 21)");
             string daysOpen = Console.ReadLine();
             switch (daysOpen)
             {
@@ -109,11 +109,11 @@ namespace LemonadeStand
                 case "19":
                 case "20":
                 case "21":
-                    Console.WriteLine("Awesome, you will be playing for {0} day(s)!", daysOpen);
+                    Console.WriteLine("\nAwesome, you will be playing for {0} day(s)!", daysOpen);
                     numberOfDaysOpen = Convert.ToInt16(daysOpen);
                     break;
                 default:
-                    Console.WriteLine("Please choose a number of days you would like to run your Lemonade Stand from 1-21");
+                    Console.WriteLine("\nPlease choose a number of days you would like to run your Lemonade Stand from 1-21");
                     GetDaysToPlay();
                     break;
             }
@@ -132,54 +132,106 @@ namespace LemonadeStand
         {
             string input = playerMenu.GetMainMenu();
             if (input == "v")
-            {
-                newPlayer.playerInventory.ShowInventory(newPlayer.playerPurse.playerMoney);
-                MainMenu();
+            {                            
             }
             else if (input == "b")
             {
-                GoToMarket();
-                MainMenu();
+                GoToMarket();               
             }
             else if (input == "d")
             {
-                GetRules();
-                Console.WriteLine();
-                MainMenu();
+                GetRules();               
+            }
+            else if (input == "m")
+            {
+                newPlayer.playerInventory.MakePitcher(newPlayer.playerInventory.newPitcher, newPlayer.playerPurse);
             }
             else if(input == "w")
             {
                 newDay.ShowForecast();
-
             }
             else if (input == "s")
             {
-                newDay.RunDay();
+                return;
             }
             else
             {
-                Console.WriteLine("Not a valid input, please try again.");
-                MainMenu();
-            }              
-
+                Console.WriteLine("\nNot a valid input, please try again.");               
+            }
+            newPlayer.playerInventory.ShowInventory(newPlayer.playerPurse.playerMoney);
+            MainMenu();
         }
         public void ShowDayWeather()
         {
-            
-            Console.WriteLine("The Weather for tomorrow is {0}, {1} , and the temperature is {2} degrees.", firstWeather.cloudy, firstWeather.rainBool, firstWeather.temperature);
-
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\nThe Weather for tomorrow is {0}, {1}, and the temperature is {2} degrees.", firstWeather.cloudy, firstWeather.rainBool, firstWeather.temperature);
+            Console.ResetColor();
         }
         public void GoToMarket()
         {
             newPlayer.playerInventory.ChooseItemToPurchase(newPlayer.playerPurse);
-
+        }
+        public void CreateDay()
+        {
+            newDay = new Day();
+            newPlayer.playerInventory.ResetPitcherCount();
         }
         public void StartDay()
         {
-            Day newDay = new Day();
+            Console.WriteLine("Potential Sales Today: {0}", newDay.daysSales);
+            Console.WriteLine("\nHow much would you like to sell each cup for?");          
+            double dailyCupCharge = Convert.ToDouble(Console.ReadLine());            
+            SetSalesOnCupCharge(dailyCupCharge);
+            double gain = GetDayProfit(dailyCupCharge);
+            Console.WriteLine("\nHere we GO...!");
+            TwoSecondBreak();
+            Console.WriteLine("\nHum de Hum de Hum" );
+            TwoSecondBreak();
+            Console.WriteLine("\nSell, Sell, Sell!!!");
+            TwoSecondBreak();
+            Console.WriteLine("\nGlug, Glug, Glug!!!");
+            TwoSecondBreak();
+            Console.WriteLine("\nYou made ......");
+            TwoSecondBreak();
+            Console.WriteLine("\n${0}!!!!", gain);
+            newPlayer.playerPurse.playerMoney += gain;           
+            newPlayer.playerPurse.totalProfit += gain;
+            Console.WriteLine("\nDay{0}", daysPassed);
+            daysPassed++;
+            Console.WriteLine("Total Sales: {0}", newDay.daysSales);
+            Console.WriteLine("Total Profit: {0}", newPlayer.playerPurse.totalProfit);
             
+            Console.WriteLine("\n \nDay{0}", daysPassed);
         }
-       
+        public double GetDayProfit(double charge)
+        {
+            pitchersCupsQuotent = newPlayer.playerInventory.numberOfPitchers * Pitcher.cupsPerPitcher;
+            CheckMaxPossibleSales(pitchersCupsQuotent);
+            double dayProfit = (newDay.daysSales * charge);                                  //(number of pitchers * Pitcher.Cups) 
+            return dayProfit;
+        }
+        public void CheckMaxPossibleSales(double number)
+        { 
+            if(number < newDay.daysSales)
+            {
+                pitchersCupsQuotent = newDay.daysSales;
+            }
+        }
+        public void SetSalesOnCupCharge(double charge)
+        {
+            if (charge >= 0.5 && charge < 1.00)
+            {
+                newDay.daysSales -= 10;
+            }
+            else if (charge >= 1.00 && charge < 1.75)
+            {
+                newDay.daysSales -= 20;
+            }
+            else if (charge >= 1.75) 
+            {
+                newDay.daysSales -= 30;
+            }
+        }       
         public void TwoSecondBreak()
         {            
             System.Threading.Thread.Sleep(2000);

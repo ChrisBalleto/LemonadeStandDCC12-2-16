@@ -6,19 +6,16 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    public class Lemon 
+    public class Lemon : Item
     {
         public double lemonsCost;
-        public string itemName;
+       
         public Lemon()
         {
-            lemonsCost = 0.50D;
+            lemonsCost = 0.40D;
             itemName = "Lemon";
         }
 
-        public double GetLemonCost()
-        {
-            return lemonsCost;
-        }
+        
     }
 }

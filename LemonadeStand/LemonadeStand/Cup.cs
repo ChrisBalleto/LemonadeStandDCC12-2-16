@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    public class Cup
+    public class Cup : Item
     {
         public double cupCost;
-        public string itemName;
+        
         public Cup()
         {
-            cupCost = 0.40D;
+            cupCost = 0.10D;
             itemName = "Cup";
         }
     }
